@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "devkit"
+version = "0.1.0"
+description = "Personal CLI toolbox — automations grab-bag"
+requires-python = ">=3.10"
+
+[project.scripts]
+devkit = "devkit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
