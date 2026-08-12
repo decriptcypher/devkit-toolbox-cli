@@ -7,8 +7,8 @@ Built as an ongoing learning project and portfolio piece; it never really
 
 ## Status
 
-🚧 Early development (MVP / v0.1). The `hash` command is implemented; the
-rest of the planned commands are not built yet.
+🚧 Early development (MVP / v0.1). The `hash` and `diskreport` commands are
+implemented; `organize`, `sysinfo`, and `note` are not built yet.
 
 ## Requirements
 
@@ -49,13 +49,37 @@ $ devkit hash "hello" --text
 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b982
 ```
 
+### `diskreport` — report the largest / oldest / newest files in a directory
+
+```bash
+devkit diskreport                     # top 10 largest files in the current directory (recursive)
+devkit diskreport <path>              # scan a specific directory instead
+devkit diskreport <path> --by age     # sort by last modified time instead of size
+devkit diskreport <path> --order asc  # smallest/newest first instead of largest/oldest
+devkit diskreport <path> --top 20     # show 20 results instead of the default 10
+```
+
+`--order desc` (default) means largest/oldest first; `--order asc` means
+smallest/newest first. Files that can't be read (e.g. permission denied) are
+skipped and listed as warnings at the end instead of stopping the scan.
+
+Example:
+```bash
+$ devkit diskreport ~/Downloads --by age --order asc --top 3
+     2.1 MB  2026-08-11 09:42  /home/user/Downloads/invoice.pdf
+    18.4 MB  2026-08-09 20:03  /home/user/Downloads/photo.jpg
+   102.3 MB  2026-08-01 15:17  /home/user/Downloads/installer.AppImage
+```
+
 ## Project structure
 
 ```
 src/devkit/
 ├── cli.py             # entry point: argument parsing and command routing
-└── crypto/
-    └── hash.py         # `hash` command logic
+├── crypto/
+│   └── hash.py         # `hash` command logic
+└── files/
+    └── diskreport.py    # `diskreport` command logic
 ```
 
 Each command category lives in its own subpackage under `src/devkit/`.
