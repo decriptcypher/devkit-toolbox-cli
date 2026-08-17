@@ -1,11 +1,18 @@
 import argparse
+from importlib.metadata import version
 
 from devkit.crypto import hash
 from devkit.files import diskreport
+from devkit.system import sysinfo
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="devkit")
+    # action="version" prints this and exits immediately, without needing a
+    # subcommand. Reads the version from the installed package metadata
+    # (set by pyproject.toml) instead of hardcoding it here, so the two
+    # never drift out of sync.
+    parser.add_argument("--version", action="version", version=f"devkit {version('devkit')}")
     subparsers = parser.add_subparsers(dest="command")
 
     hash_parser = subparsers.add_parser("hash", help="Generate a hash for a file or text")
@@ -34,9 +41,18 @@ def main() -> None:
     )
     diskreport_parser.add_argument("--top", type=int, default=10, help="Number of results to show (default: 10)")
 
+    sysinfo_parser = subparsers.add_parser(
+        "sysinfo", help="Show a summary of OS, Python, CPU and disk info"
+    )
+    sysinfo_parser.add_argument(
+        "path", nargs="?", default=".", help="Path used to check disk usage (default: current directory)"
+    )
+
     args = parser.parse_args()
 
     if args.command == "hash":
         hash.run(args.value, algo=args.algo, as_text=args.text)
     elif args.command == "diskreport":
         diskreport.run(args.path, by=args.by, order=args.order, top=args.top)
+    elif args.command == "sysinfo":
+        sysinfo.run(args.path)

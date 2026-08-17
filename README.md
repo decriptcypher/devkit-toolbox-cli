@@ -7,8 +7,8 @@ Built as an ongoing learning project and portfolio piece; it never really
 
 ## Status
 
-🚧 Early development (MVP / v0.1). The `hash` and `diskreport` commands are
-implemented; `organize`, `sysinfo`, and `note` are not built yet.
+🚧 Early development (MVP / v0.1). The `hash`, `diskreport`, and `sysinfo`
+commands are implemented; `organize` and `note` are not built yet.
 
 ## Requirements
 
@@ -32,7 +32,8 @@ source code, so changes take effect immediately without reinstalling.
 ## Usage
 
 ```bash
-devkit --help
+devkit --help       # list available commands
+devkit --version    # show the installed devkit version
 ```
 
 ### `hash` — generate a hash for a file or text
@@ -71,6 +72,23 @@ $ devkit diskreport ~/Downloads --by age --order asc --top 3
    102.3 MB  2026-08-01 15:17  /home/user/Downloads/installer.AppImage
 ```
 
+### `sysinfo` — show a summary of OS, Python, CPU and disk info
+
+```bash
+devkit sysinfo             # check disk usage for the current directory
+devkit sysinfo <path>      # check disk usage for a specific path/partition instead
+```
+
+Example:
+```bash
+$ devkit sysinfo
+Hostname         : mymachine
+Operating System : Linux 6.14.0-29-generic (x86_64)
+Python           : 3.12.3
+CPU cores        : 8
+Disk (.)         : 179.5 GB free / 500.0 GB total (64% used)
+```
+
 ## Project structure
 
 ```
@@ -78,8 +96,10 @@ src/devkit/
 ├── cli.py             # entry point: argument parsing and command routing
 ├── crypto/
 │   └── hash.py         # `hash` command logic
-└── files/
-    └── diskreport.py    # `diskreport` command logic
+├── files/
+│   └── diskreport.py    # `diskreport` command logic
+└── system/
+    └── sysinfo.py        # `sysinfo` command logic
 ```
 
 Each command category lives in its own subpackage under `src/devkit/`.
