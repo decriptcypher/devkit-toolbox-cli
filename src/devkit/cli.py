@@ -4,6 +4,7 @@ from importlib.metadata import version
 from devkit.crypto import hash
 from devkit.files import diskreport
 from devkit.system import sysinfo
+from devkit.utility import remembrall
 
 
 def main() -> None:
@@ -48,6 +49,18 @@ def main() -> None:
         "path", nargs="?", default=".", help="Path used to check disk usage (default: current directory)"
     )
 
+    remembrall_parser = subparsers.add_parser(
+        "remembrall", help="Block for a duration, then alert with the given text"
+    )
+    remembrall_parser.add_argument("text", help="Short reminder text shown when the timer ends")
+    remembrall_parser.add_argument(
+        "--in",
+        dest="seconds",
+        type=remembrall.parse_duration,
+        required=True,
+        help="Duration before the alert, e.g. 20m, 1h, 45s",
+    )
+
     args = parser.parse_args()
 
     if args.command == "hash":
@@ -56,3 +69,5 @@ def main() -> None:
         diskreport.run(args.path, by=args.by, order=args.order, top=args.top)
     elif args.command == "sysinfo":
         sysinfo.run(args.path)
+    elif args.command == "remembrall":
+        remembrall.run(args.text, args.seconds)

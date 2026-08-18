@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "devkit"
-version = "0.3.0"
+version = "0.4.0"
 description = "Personal CLI toolbox — automations grab-bag"
 requires-python = ">=3.10"
 

@@ -7,8 +7,9 @@ Built as an ongoing learning project and portfolio piece; it never really
 
 ## Status
 
-🚧 Early development (MVP / v0.1). The `hash`, `diskreport`, and `sysinfo`
-commands are implemented; `organize` and `note` are not built yet.
+🚧 Early development (MVP / v0.1). The `hash`, `diskreport`, `sysinfo`, and
+`remembrall` commands are implemented; `organize` and `note` are not built
+yet.
 
 ## Requirements
 
@@ -89,6 +90,25 @@ CPU cores        : 8
 Disk (.)         : 179.5 GB free / 500.0 GB total (64% used)
 ```
 
+### `remembrall` — set a reminder with an alert after a duration
+
+```bash
+devkit remembrall "text" --in 20m   # alert in 20 minutes
+devkit remembrall "text" --in 1h    # alert in 1 hour
+devkit remembrall "text" --in 45s   # alert in 45 seconds
+```
+
+Blocks the terminal until the duration elapses, then prints the reminder
+text with a terminal bell. Duration must be a number followed by a single
+unit: `s` (seconds), `m` (minutes), or `h` (hours).
+
+Example:
+```bash
+$ devkit remembrall "stretch" --in 5s
+Reminder "stretch" scheduled in 5s.
+Time is up: "stretch"
+```
+
 ## Project structure
 
 ```
@@ -98,8 +118,10 @@ src/devkit/
 │   └── hash.py         # `hash` command logic
 ├── files/
 │   └── diskreport.py    # `diskreport` command logic
-└── system/
-    └── sysinfo.py        # `sysinfo` command logic
+├── system/
+│   └── sysinfo.py        # `sysinfo` command logic
+└── utility/
+    └── remembrall.py     # `remembrall` command logic
 ```
 
 Each command category lives in its own subpackage under `src/devkit/`.
